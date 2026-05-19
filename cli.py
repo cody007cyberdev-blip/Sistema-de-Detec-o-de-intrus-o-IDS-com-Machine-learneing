@@ -5,6 +5,7 @@ from packet_capture import sniff_packets, save_packets, load_packets
 from data_processor import packets_to_df, preprocess_data
 from ml_model import IDSModel
 from ids_engine import IDSEngine
+from visualizer import generate_visualizations
 
 def main():
     parser = argparse.ArgumentParser(description="Sistema de Detecção de Intrusão (IDS) com Machine Learning")
@@ -29,6 +30,12 @@ def main():
     # Comando: analyze
     analyze_parser = subparsers.add_parser('analyze', help='Analisar arquivo PCAP')
     analyze_parser.add_argument('-f', '--file', required=True, help='Arquivo PCAP a analisar')
+
+    # Comando: visualize
+    visualize_parser = subparsers.add_parser('visualize', help='Gerar gráficos de um arquivo PCAP')
+    visualize_parser.add_argument('-f', '--file', required=True, help='Arquivo PCAP para visualizar')
+    visualize_parser.add_argument('-m', '--model', default='ids_model.joblib', help='Arquivo do modelo para classificação')
+    visualize_parser.add_argument('-o', '--output', default='plots', help='Diretório de saída para os gráficos')
 
     args = parser.parse_args()
 
@@ -64,6 +71,10 @@ def main():
         print(df.describe())
         print("\nPrimeiros 10 pacotes:")
         print(df.head(10))
+
+    elif args.command == 'visualize':
+        print(f"Gerando visualizações para {args.file}...")
+        generate_visualizations(args.file, args.model, args.output)
 
     else:
         parser.print_help()
