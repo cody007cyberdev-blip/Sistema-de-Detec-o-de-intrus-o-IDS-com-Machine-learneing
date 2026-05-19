@@ -110,3 +110,27 @@ Sinta-se à vontade para contribuir com este projeto. Por favor, abra uma issue 
 ## Licença
 
 Este projeto está licenciado sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+## Scripts de Demonstração
+
+Foram adicionados scripts para simular ataques e demonstrar o funcionamento do IDS em tempo real.
+
+### `simulate_attack.py`
+
+Simula diferentes tipos de tráfego na rede, incluindo:
+-   **Tráfego Normal**: Pacotes TCP comuns na porta 443.
+-   **Pacote Suspeito (Tamanho)**: Pacotes com payload superior a 1400 bytes.
+-   **Acesso a Porta Sensível**: Tentativas de conexão na porta SSH (22).
+-   **Varredura Suspeita (NULL Scan)**: Pacotes TCP com todas as flags zeradas.
+
+### `demo_ids.py`
+
+Um script que automatiza a demonstração, iniciando o IDS e a simulação de ataques simultaneamente na interface de loopback (`lo`).
+
+#### Como executar a demonstração:
+
+```bash
+sudo python3 demo_ids.py
+```
+
+**Nota:** O script treinará o modelo automaticamente se ele não existir e iniciará o monitoramento. Os alertas aparecerão no terminal conforme os ataques simulados forem detectados.
